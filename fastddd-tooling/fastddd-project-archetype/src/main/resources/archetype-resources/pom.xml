@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
+    <packaging>jar</packaging>
+
+    <name>${artifactId}</name>
+    <description>FastDDD Application - ${modelType} Model</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>${springBootVersion}</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java.version>21</java.version>
+        <!-- 两条独立版本轴：fastddd.version=Framework 运行时；fastddd-tooling.version=构建期插件 -->
+        <fastddd.version>${fastdddVersion}</fastddd.version>
+        <fastddd-tooling.version>${fastdddToolingVersion}</fastddd-tooling.version>
+        <!-- ECO-RELEASE-04/S3 安全覆盖：tomcat-embed CVE-2026-65905/65182/68525（3×CRITICAL，10.1.x 线 fix 实际发布 10.1.59）。 -->
+        <!-- 生成工程 parent=spring-boot-starter-parent：import fastddd-bom 无法覆盖从 parent 继承的 Boot
+             dependencyManagement（import 只填空、不覆盖继承），须走 Boot 官方版本属性通道；Boot 自带管理版 ≥10.1.59 后本行可移除。 -->
+        <tomcat.version>10.1.59</tomcat.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+#if(${enableEvent} == "true")
+        <rocketmq.version>5.1.4</rocketmq.version>
+#end
+    </properties>
+
+    <dependencies>
+        <!-- FastDDD Web (必选) -->
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fast-ddd-web</artifactId>
+            <version>${fastddd.version}</version>
+        </dependency>
+
+#if(${modelType} == "RICH")
+        <!-- FastDDD Application (充血模型必选) -->
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fast-ddd-application</artifactId>
+            <version>${fastddd.version}</version>
+        </dependency>
+#end
+
+        <!-- Cache (可选) -->
+#if(${enableCache} == "true")
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fast-ddd-cache</artifactId>
+            <version>${fastddd.version}</version>
+        </dependency>
+#end
+
+        <!-- Event (可选) -->
+#if(${enableEvent} == "true")
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fast-ddd-event</artifactId>
+            <version>${fastddd.version}</version>
+        </dependency>
+#end
+
+        <!-- Search (可选) -->
+#if(${enableSearch} == "true")
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fast-ddd-search</artifactId>
+            <version>${fastddd.version}</version>
+        </dependency>
+#end
+
+        <!-- Monitor (可选) -->
+#if(${enableMonitor} == "true")
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fast-ddd-monitor</artifactId>
+            <version>${fastddd.version}</version>
+        </dependency>
+#end
+
+        <!-- Database Driver -->
+#if(${databaseType} == "mysql")
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+#elseif(${databaseType} == "postgresql")
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+#else
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+#end
+
+        <!-- 连接池（默认 HIKARI）：ECO-007A——C4 依赖边界整改后 fast-ddd-crud 不再传递任何池实现，
+             数据库形态的生成项目必须显式获得连接池依赖，不得依赖 fast-ddd-event 等模块的偶然传递。
+             版本经 Boot parent 受管；如需 Druid，改用 druid-spring-boot-3-starter 并显式钉版（对齐 fastddd-bom）。 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.github.gallop.fastddd</groupId>
+                <artifactId>fastddd-maven-plugin</artifactId>
+                <version>${fastddd-tooling.version}</version>
+                <configuration>
+                    <basePackage>${package}</basePackage>
+#if(${modelType} == "RICH")
+                    <modelType>RICH</modelType>
+                    <enableCQRS>true</enableCQRS>
+#end
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

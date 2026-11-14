@@ -1,0 +1,173 @@
+# Tooling 1.0.7 升格 current（2026-11-15，Central Publish 落地——首个 Maven Central 公开发布）：
+#   (1.0.7, 1.1.3) candidate→current；(1.0.6, 1.0.2) current→released 同日降格；
+#   发布链=GitHub Actions Central Release（run 43608855821 门禁 152 测绿）→GPG 签名→Portal
+#   暂存（deployment cd2e4175-77cd-46bb-807f-e8a757040fca，人工核对 11 GAV 216 文件后
+#   Publish）→repo1 同步经阿里云镜像 200×N 亲证（本机直连 repo1 被网络阻断，镜像为
+#   Central 真相源的可达代理）。
+# Tooling 1.0.7 候选登记（2026-11-14，Owner「推内网仓，并拍板 1.0.7×fw1.1.3 配套发布批」授权）：
+#   compatible-tuples 追加 (1.0.7, 1.1.3) candidate——目标=Maven Central 公开发布（fw 1.1.3 为
+#   Central 唯一在架线；tooling 8 模块尚未上 Central）；配套实证=12 模块×1.1.3 Central 直解
+#   编译 SUCCESS+全量测试 148/0/2 绿+1.1.3 构建插件生成项目自动 pin 1.1.3 且 Central-only
+#   编译 exit0（唯一红=治理契约拦截未登记组合，即本登记解除）；POM 默认组合与 framework-lines
+#   登记不动（1.1.1-1.1.3 线登记属框架线独立仪式）；current 认证元组 (1.0.6, 1.0.2) 维持——
+#   升格属 Central 发布落地后独立仪式。
+# Framework 1.1.0 GA 窗机读登记（2026-10-24，T8.98 前置①，Owner「根据建议拍板，请开始执行」授权）：
+#   framework-lines 追加 1.1.0（staged，manifest 同 1.0.2——14 核心模块 pom 未动）；
+#   compatible-tuples 追加 (1.0.6, 1.1.0) released——框架仓 matrix 双语「GA 前经 Tooling 侧
+#   机读矩阵登记」门禁承接；验收链=D0 delta 预扫四项+surefire 双跑恒等 1061/0/0/10
+#   +consumer-tests 30 场景全绿（identity-*/security-* 必需面 skipped=0）；current 认证
+#   元组 (1.0.6, 1.0.2) 维持不动——1.1.0 升格 current 属后续发版窗独立仪式。
+# Tooling 1.0.6 内部正式发布（2026-10-20，Owner「开工」T8.83 批令授权——断链修复批）：
+#   F2' 安全 SPI 六模板 String 签名对齐（框架 security-starter 1.0.x SPI 真值
+#   String——T8.81 S3 编译冒烟十错断链根修：RbacIdentity/RbacPermission/
+#   UserDetails/CustomIdentity/CustomPermission/multi-channel AppIdentity 六模板，
+#   Demo 典范形 Long.valueOf 适配+String.valueOf builder；SecurityQueryMapper
+#   与 Sys*Mapper 保持 Long 出界声明）+ F3' MCB 双 pom 补 fast-ddd-web/crud
+#   versionless（T8.81 S6 十七错断链根修：common-shared+common-domain——anemic
+#   五件套经 studio MCB 死配置路由落库模块的依赖面）+ 渲染回归 8 测（六模板
+#   +双 pom 正负锚）；批形=T8.82R 对抗核验收口版（三遗漏同病模板+common-domain
+#   同病+联动盲区坐实后扩刀）。追加候选元组（未发布，仅供候选验收链使用）；
+#   current 认证元组升格 (1.0.6, 1.0.2)——验收链（162 S3/S6 编译冒烟复跑断链归零
+#   〔S3 exit0/56 类、S6 exit0/46 类全 7 模块 reactor〕+发版前置复审）通过；(1.0.5, 1.0.2)
+#   同日降格 released。
+# Tooling 1.0.5 内部正式发布（2026-10-15，Owner「请发布，并push」授权）：
+#   F-⑥ 修复候选元组经双路径端到端验收链（F-⑤ Sys* 默认路径 T8.63 真浏览器走查
+#   SUCCEEDED + F-⑥ 五表正名路径 T8.64 真浏览器走查 PASS，均 162 实弹+nginx 对拍；
+#   镜像内模板字节亲证；IT 盲区闭合）通过后升格 current；1.0.2 元组降格 released
+#   （历史已发布兼容记录保留，不标失效）；未发布的 1.0.3/1.0.4 候选行随定稿移除
+#   （内容已全数被 1.0.5 承接发布）；GA 工件含 framework 1.0.2 可解析闭包部署内部
+#   Maven 仓（地址略），git 锚=tag v1.0.5；开发线元组与 Framework 平台
+#   manifest 不变（framework-lines 1.0.2 仍 staged——其 current-stable 升格属框架线
+#   独立仪式）。
+# P2-2 语义扩列消费（2026-10-12，T8.55 批，候选构建未发布）：
+#   Framework 1.0.2（TableMetadata 三可空语义列+refine 提示词契约勘正，
+#   tag v1.0.2，staged——current-stable 仍留 1.0.0）；Tooling 1.0.3 候选
+#   构建（本地 install 测试态）追加候选元组（未发布，仅供候选验收链
+#   使用）；开发线元组 framework 轴随 POM fastddd-framework.version=1.0.2
+#   同步；current 认证元组 (1.0.2, 1.0.0) 不变——未经验收链不升格。
+# F-⑤ 安全模板渲染修复（2026-10-14，T8.63 批，候选构建未发布）：
+#   Tooling 1.0.4 候选构建（本地 install 测试态）追加候选元组（未发布，仅供候选
+#   验收链使用）——Sys*Mapper 三模板共 15 处 MyBatis #{} 占位转义修复（Security
+#   勾选+设计无 RBAC 正名表时 FreeMarker 数值插值解析冲突致生成任务 FAILED 的先在
+#   缺口）+「无 RBAC 正名表渲染 Sys*」回归测试；1.0.3 候选未发布即被本批承接；
+#   current 认证元组 (1.0.2, 1.0.0) 不变——未经验收链不升格。
+# ====================================================================
+# FastDDD 跨产品兼容矩阵 —— VER-001 机器可读规范源
+# ====================================================================
+# 本文件是 Studio → Tooling → Framework 三产品版本组合的【唯一机器可读契约】。
+# 人类可读镜像见 docs/COMPATIBILITY_MATRIX.md（"跨产品兼容矩阵"小节）。
+#
+# 用途：
+#   1. 生成通道（Maven Plugin / Studio）从本矩阵取【目标 Framework 版本】，
+#      不复制 Studio/Tooling 自身版本（VER-001 步骤 5）。
+#   2. 构建期/CI 校验当前 reactor 版本组合为已登记的合法组合（VER-001 步骤 6）。
+#   3. 定义每个 Framework 版本线的平台 manifest（Boot/Java/Spring AI/SpringDoc/Knife4j）。
+#
+# 版本独立化说明（ADR-005 §3.2）：
+#   三仓分别拥有自身 revision，并通过独立上游版本属性消费已发布制品。
+#   本矩阵登记允许的差异化组合，CI 据此阻断未认证组合；当前三个版本值
+#   相同只代表首个候选组合，不表示构建或发布节奏锁步。
+#   （本文件不含 Maven filtering 占位符，确保字节稳定——见 VersionGovernanceContractTest）
+#
+# 版本登记统一（2026-09-13，Owner 决策）：
+#   未发布的 1.0.0-jdk21 版本计划撤销，正式版本统一为 1.0.0（原 2026-09-10/11
+#   内部批次撤销重发）。1.0.0-jdk21 开发线与预发布元组登记随计划移除，
+#   历史 rc1 记录不变。
+#
+# Tooling 1.0.1 发布（2026-09-13，Owner 授权）：
+#   候选元组升格 current；1.0.0 GA 元组降格 released（历史已发布兼容
+#   记录保留，不标失效）；开发线元组不变。
+#
+# Tooling 1.0.2 内部正式发布（2026-09-14，Owner 授权）：
+#   修复候选元组经完整验收链（Studio 导出→独立仓 clean verify→按生成
+#   Dockerfile 契约 java -jar 启动→健康→创建—查询往返；纯 RICH 与混合
+#   形态双通道）通过后升格 current；1.0.1 元组降格 released（历史已发布
+#   兼容记录保留，不标失效）；开发线元组与 Framework 平台 manifest 不变。
+# ====================================================================
+
+schema-version: 1
+product-line: "1.0.0"
+
+# ---- Framework 平台 manifest（每个版本线的平台依赖基线） ----
+# manifest 版本须与 docs/COMPATIBILITY_MATRIX.md "关键依赖矩阵" 一致
+# （由 VersionGovernanceContractTest 在构建期断言）。
+framework-lines:
+  - id: "1.0.0"
+    status: current-stable
+    revision: "1.0.0"
+    description: "FastDDD 1.0.0（首个 GA，内部 v1.0 正式版；2026-09-13 内部重发，取代已撤销的 2026-09-10 批次；坐标 io.github.gallop.fastddd）"
+    manifest:
+      java: "21"
+      spring-boot: "3.5.16"
+      spring-ai: "1.1.8"
+      springdoc: "2.8.17"
+      knife4j: "4.5.0"
+
+  - id: "1.0.2"
+    status: staged
+    revision: "1.0.2"
+    description: "FastDDD 1.0.2（TableMetadata 语义扩列三可空列+refine 提示词契约勘正；2026-10-12 tag v1.0.2；staged——current-stable 仍留 1.0.0，待发布同步更新生成通道锚定）"
+    manifest:
+      java: "21"
+      spring-boot: "3.5.16"
+      spring-ai: "1.1.8"
+      springdoc: "2.8.17"
+      knife4j: "4.5.0"
+
+  - id: "1.1.0"
+    status: staged
+    revision: "1.1.0"
+    description: "FastDDD 1.1.0（可选身份能力线 GA：identity 四员+AI defaultValue 提示词契约+consumer-tests 扩；2026-10-24 tag v1.1.0 同窗提请；manifest 与 1.0.2 同值〔14 核心模块 pom 未动〕；staged——current-stable 仍留 1.0.0，升格属框架线独立仪式）"
+    manifest:
+      java: "21"
+      spring-boot: "3.5.16"
+      spring-ai: "1.1.8"
+      springdoc: "2.8.17"
+      knife4j: "4.5.0"
+
+# ---- 合法的跨产品版本组合（Studio, Tooling, Framework） ----
+# 首个 GA 元组（2026-09-13 重发批次）+ 开发线元组；后续独立发版时追加经验证的差异化元组。
+# 2026-09-13 Tooling 1.0.2 修复候选批次：追加候选元组（未发布，仅供候选验收链使用）。
+# 2026-09-14 候选验收链通过并经 Owner 授权，元组升格 current（内部正式发布——沿用
+# 1.0.1 候选治理先例）；1.0.1 元组降格 released。
+compatible-tuples:
+  - studio: "1.0.0-jdk21-SNAPSHOT"
+    tooling: "1.0.0"
+    framework: "1.0.0"
+    status: released
+    description: "首个 GA 元组（内部 v1.0）：2026-09-13 重发批次——原 2026-09-10/11 内部批次撤销重发，旧 tag 对象与制品字节归档于 .fastddd-releases/internal-v1.0.0-r2/evidence/；Studio 未发布，沿用自身开发线版本。2026-09-13 Tooling 1.0.1 发布时降格 released，历史已发布兼容记录保留（不作失效处理）"
+  - studio: "1.0.0-jdk21-SNAPSHOT"
+    tooling: "1.0.0-SNAPSHOT"
+    framework: "1.0.2"
+    status: development
+    description: "开发线元组（POM 默认组合）：Tooling 1.0.0-SNAPSHOT 消费 Framework 1.0.2 制品（2026-10-12 T8.55 P2-2 语义扩列消费——本地 install 测试态）；原 1.0.0-jdk21-SNAPSHOT 开发线登记已随版本计划撤销移除"
+  - studio: "1.0.0-jdk21-SNAPSHOT"
+    tooling: "1.0.1"
+    framework: "1.0.0"
+    status: released
+    description: "已发布历史记录（2026-09-13 发布，2026-09-14 Tooling 1.0.2 发布时降格 released）：Tooling 1.0.1 补丁——TemplateRenderer 旧调用兜底、init-data.sql MySQL 1093 修复、单文件 API 文档补齐（含 doc 插件源码扫描 0 控制器存量缺陷修复）、文档布尔/UTF-8 编码/输出格式契约收紧、语言标识校验；Framework 保持 1.0.0 不变，兼容记录保留（不作失效处理）"
+  - studio: "1.0.0-jdk21-SNAPSHOT"
+    tooling: "1.0.2"
+    framework: "1.0.0"
+    status: released
+    description: "已发布历史记录（2026-09-14 发布，2026-10-15 Tooling 1.0.5 发布时降格 released）：Tooling 1.0.2——逐表代码生成可编译性修复 D-2（DECIMAL/BigDecimal 缺 import、Swagger v2→v3 注解统一、ANEMIC+CQRS 缺 fast-ddd-application/MapStruct 依赖：pom 门控新增 richDependencies、rich 控制器随 enableCQRS 门控）+ 运行期装配修复 D-3/D-4（RICH MapperScan 注解过滤、混合形态双扫描）+ 可执行打包契约补齐（spring-boot-maven-plugin repackage）+ 真实生成编译与 MapperScan 边界门禁；验收链（Studio 导出→独立仓 clean verify→按生成 Dockerfile 契约 java -jar 启动→健康→创建—查询往返）在纯 RICH 与混合形态通过（更新/删除与符号链接专项未覆盖）；1.0.1 元组同日降格 released，Framework 保持 1.0.0 不变"
+  - studio: "1.0.0-jdk21-SNAPSHOT"
+    tooling: "1.0.5"
+    framework: "1.0.2"
+    status: released
+    description: "已发布历史记录（2026-10-15 发布，2026-10-20 Tooling 1.0.6 发布时降格 released）：Tooling 1.0.5——F-⑥ SecurityQueryMapper 两处反转转义修复（# 留 raw 串外：渲染通过、生成项目带病交付、MyBatis 运行期 ${userId} 字符串替换后残留裸 #〔MySQL 行注释〕截断鉴权 SQL——先在 bf7eb2b，T8.63 push 前独立复审发现①）+五表 queryVars 直渲染回归两臂；F-⑤ Sys*Mapper 三模板 15 处 MyBatis #{} 占位转义（Security 勾选+无 RBAC 正名表首渲即 InvalidReferenceException→任务 FAILED 先在缺口）+无表元数据渲染回归三臂；P2-2 语义扩列模板标注消费 Framework 1.0.2 TableMetadata 三可空列；验收链=T8.63 Sys* 默认路径走查 SUCCEEDED+T8.64 五表路径走查 PASS（均 162 真浏览器+nginx 对拍）+镜像内模板字节亲证；1.0.2 元组同日降格 released；未发布的 1.0.3/1.0.4 候选全部内容被本版承接发布（候选行随定稿移除）"
+  - studio: "1.0.0-jdk21-SNAPSHOT"
+    tooling: "1.0.6"
+    framework: "1.0.2"
+    status: released
+    description: "已发布历史记录（2026-10-20 内部发布，2026-11-15 Tooling 1.0.7 首个 Maven Central 公开发布时降格 released）：Tooling 1.0.6——F2' 安全 SPI 六模板 String 签名对齐（T8.81 S3 编译冒烟十错断链根修：getUserInfo/getPermissionsByUserId/getRolesByUserId SPI 签名 Long→String〔框架 security-starter SPI 真值 String〕+mapper 调用点 Long.valueOf 适配〔Mapper 保持 Long〕+builder String.valueOf——六模板=RbacIdentityServiceImpl/RbacPermissionServiceImpl/UserDetailsServiceImpl/CustomIdentityServiceImpl/CustomPermissionServiceImpl/multi-channel AppIdentityService；SecurityQueryMapper 与 Sys*Mapper 保持 Long 出界声明）+F3' MCB 双 pom 依赖补齐（T8.81 S6 十七错断链根修：common-shared-pom 增 fast-ddd-crud/web、common-domain-pom 增 fast-ddd-web——versionless parent dm 管版；anemic 五件套 Controller/Entity 依赖经 studio MCB 死配置路由恒落库模块）+SecuritySpiSignatureTemplatesRenderTest 渲染回归 8 测（正锚签名/适配点/builder 值+负锚 Long 残影/直传/强转归零+FreeMarker 痕迹零）；批形=T8.82R 对抗核验收口版；验收链实证=162 t883 活栈〔classpath templates 1.0.6 属性覆盖形〕S3 复跑 exit0/56 类零错〔昔 F2'+ 十错归零〕+S6 复跑 exit0/46 类全 7 模块 reactor 绿〔昔 F3'+ 十七错归零；残点 F4=studio MultiChannelProjectBuilder 子应用依赖不含身份域系 studio 侧新断链登记候独立处置批，非本批模板面〕+发版前置复审通过；全量 install（revision=1.0.6）BUILD SUCCESS"
+  - studio: "1.0.0-jdk21-SNAPSHOT"
+    tooling: "1.0.6"
+    framework: "1.1.0"
+    status: released
+    description: "Framework 1.1.0 GA 窗登记（2026-10-24 T8.98 前置①，Owner「根据建议拍板，请开始执行」授权；框架仓 matrix 双语「GA 前经 Tooling 侧机读矩阵登记」门禁承接）：1.1.0=可选飞书身份能力线（identity 四员+W2-W7 消费面成熟度）——W6 单轴化合流后单轴 GA（1.0.3 永久取消）；验收链=D0 delta 预扫四项+全量 surefire 双跑恒等 1061/0/0/10+consumer-tests 30 场景全绿〔identity-*/security-* 必需面 skipped=0〕+bom-revision-isolation 绿；13 核心模块 src/main 与 v1.0.2 字节一致+security-starter 5 文件身份桥面〔M2 门禁已覆盖〕；v3a defaultValue 提示词契约激活〔studio 消费链 T8.96R D14 坐实〕；current 认证元组 (1.0.6, 1.0.2) 维持——升格 current 属后续 Tooling 发版窗独立仪式"
+  - studio: "1.0.0-jdk21-SNAPSHOT"
+    tooling: "1.0.7"
+    framework: "1.1.3"
+    status: current
+    description: "当前认证元组（2026-11-15 首个 Maven Central 公开发布——Portal Publish 落地 repo1 同步亲证〔阿里云镜像 pom/sources/javadoc 200×N，内容级验证=Eco-004 scm/url 与 fast-ddd-common 1.1.3 在场〕，git 锚=tag v1.0.7；发布链=GitHub Actions Central Release〔run 43608855821 门禁 152 测绿〕→GPG 签名→Portal 暂存〔deployment cd2e4175，人工核对 11 GAV 216 文件〕→Publish；2026-11-14 Owner 拍板「1.0.7×fw1.1.3 配套发布批」——对齐 Central 唯一在架 Framework 线）：Tooling 1.0.7 开源就绪与配套批——ECO-004 公开 url/scm 补入〔Sonatype Central 校验前置，flattened pom 全 reactor 携带〕+README 开源三批〔脱敏/Central 事实对齐/功能叙述与使用演示〕+CredentialScanTest AI Key 片段拆分锚〔变异验证杀伤力恒等〕+内网叙事脱敏〔CHANGELOG 内网地址/矩阵内部仓叙事〕；配套实证=fw1.1.3〔Central 直解〕12 模块编译 SUCCESS+全量测试 148/0/2 绿〔唯一红=治理契约拦截未登记组合即本登记解除〕+1.1.3 构建插件生成项目自动 pin 1.1.3 且 Central-only 编译 exit0"

@@ -1,0 +1,43 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+
+# Dependency directories
+node_modules/
+
+# Maven build output
+target/
+
+# flatten-maven-plugin generated POMs (CI-friendly 版本解析产物，构建时自动生成，不入库)
+.flattened-pom.xml
+
+# Environment variables
+.env
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS specific
+.DS_Store
+
+# Claude Code local settings
+.claude/
+
+# Temp/debug files
+after-*
+ai-*
+analysis-result
+current-state
+login-page
+sse-*
+test-*.json

@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.gallop.fastddd.doc.config.FastDocAutoConfiguration,\
+com.gallop.fastddd.doc.config.FreeMarkerConfig

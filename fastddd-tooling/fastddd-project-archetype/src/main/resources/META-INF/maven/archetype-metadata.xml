@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor
+    xsi:schemaLocation="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 https://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd"
+    xmlns="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="fastddd-archetype"
+    partial="false">
+
+    <requiredProperties>
+        <!-- 基础配置 -->
+        <requiredProperty key="groupId">
+            <defaultValue>com.example</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="artifactId">
+            <defaultValue>my-fastddd-app</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="version">
+            <defaultValue>1.0.0-SNAPSHOT</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="package">
+            <defaultValue>com.example.app</defaultValue>
+        </requiredProperty>
+
+        <!-- DDD 配置 -->
+        <requiredProperty key="modelType">
+            <defaultValue>ANEMIC</defaultValue>
+        </requiredProperty>
+
+        <!-- 模块配置 -->
+        <requiredProperty key="enableCache">
+            <defaultValue>true</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="enableEvent">
+            <defaultValue>true</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="enableSearch">
+            <defaultValue>false</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="enableMonitor">
+            <defaultValue>true</defaultValue>
+        </requiredProperty>
+
+        <!-- 数据库配置 -->
+        <requiredProperty key="databaseType">
+            <defaultValue>mysql</defaultValue>
+        </requiredProperty>
+
+        <!-- 框架版本配置 -->
+        <requiredProperty key="springBootVersion">
+            <defaultValue>3.5.16</defaultValue>
+        </requiredProperty>
+        <!--
+            VER-001 步骤 5：目标 Framework 版本作为可覆盖属性（默认对齐兼容矩阵 current-stable 线），
+            不再在生成 pom 中不透明写死。archetype 离线运行、无法读 classpath 矩阵，
+            故仅做可覆盖化；矩阵校验由 Mojo/Studio 通道承担。archetype 模块本身已 DEPRECATED。
+
+            版本解耦（ECO-003 后续）：fastdddToolingVersion 是生成项目 fastddd-maven-plugin
+            的独立版本轴，与 fastdddVersion（Framework 轴）互不推导；默认值为当前 Tooling
+            基线字面量，发布时随本模块一起更新或由调用方显式覆盖。
+        -->
+        <requiredProperty key="fastdddVersion">
+            <defaultValue>1.0.0-jdk21-SNAPSHOT</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="fastdddToolingVersion">
+            <defaultValue>1.0.0-jdk21-SNAPSHOT</defaultValue>
+        </requiredProperty>
+    </requiredProperties>
+
+    <!-- 项目结构 -->
+    <fileSets>
+        <!-- Java 源码目录 - 包含所有子包 -->
+        <fileSet filtered="true" packaged="true">
+            <directory>src/main/java</directory>
+        </fileSet>
+
+        <!-- 资源文件 -->
+        <fileSet filtered="true">
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*.yml</include>
+                <include>**/*.yaml</include>
+                <include>**/*.properties</include>
+                <include>**/*.xml</include>
+            </includes>
+        </fileSet>
+
+        <!-- 测试代码 -->
+        <fileSet filtered="true" packaged="true">
+            <directory>src/test/java</directory>
+        </fileSet>
+
+        <!-- 测试资源 -->
+        <fileSet filtered="false">
+            <directory>src/test/resources</directory>
+            <includes>
+                <include>**/*.yml</include>
+                <include>**/*.yaml</include>
+                <include>**/*.properties</include>
+            </includes>
+        </fileSet>
+
+        <!-- 文档 -->
+        <fileSet filtered="true">
+            <directory>docs</directory>
+            <includes>
+                <include>**/*.md</include>
+            </includes>
+        </fileSet>
+
+        <!-- 根目录文件 -->
+        <fileSet filtered="false">
+            <directory></directory>
+            <includes>
+                <include>README.md</include>
+                <include>.gitignore</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</archetype-descriptor>

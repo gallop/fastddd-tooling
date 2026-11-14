@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.gallop.fastddd</groupId>
+        <artifactId>fastddd-tooling-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>fastddd-fastdoc-spring-boot-starter</artifactId>
+    <name>FastDDD FastDoc Spring Boot Starter</name>
+    <description>
+        FastDoc HTTP 适配 Starter：把 fastddd-fastdoc-core（纯 JDBC/模板库）以 Spring Boot 自动装配
+        形式暴露为 /api/fastdoc/* REST 端点。归属 Tooling 层（ADR-005）。
+        SPLIT-002：从 fast-ddd-web 上移至此，消除 Framework → Tooling 反向依赖。
+    </description>
+
+    <dependencies>
+        <!-- FastDoc 核心（Tooling）：FastDocService/TemplateService/ExportService + 元数据模型；
+             传递引入 fast-ddd-common（提供 com.gallop.fastddd.common.i18n.Messages）。 -->
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fastddd-fastdoc-core</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Web：FastDocController 为 @RestController -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- SpringDoc：控制器使用 @Tag/@Operation/@Parameter 注解 -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+
+        <!-- 配置元数据生成 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
