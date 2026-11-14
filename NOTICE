@@ -1,0 +1,14 @@
+FastDDD Tooling
+Copyright 2026 Gallop
+
+This product includes software developed by Gallop and contributors.
+
+FastDDD Tooling may consume FastDDD Framework components. FastDDD Framework
+is licensed separately under the Apache License, Version 2.0.
+
+Transitive third-party dependencies, including Hutool (Mulan PSL v2), remain
+subject to their respective licenses:
+https://license.coscl.org.cn/MulanPSL2
+
+The third-party component license inventory is maintained in
+THIRD-PARTY-NOTICES.md.

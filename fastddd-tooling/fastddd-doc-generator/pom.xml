@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.gallop.fastddd</groupId>
+        <artifactId>fastddd-tooling-parent</artifactId>
+        <version>${revision}</version>
+    <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>fastddd-doc-generator</artifactId>
+    <packaging>jar</packaging>
+
+    <name>FastDDD Doc Generator</name>
+    <description>Automated API documentation generator for Spring Boot applications</description>
+
+    <dependencies>
+        <!-- FastDDD Common -->
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fast-ddd-common</artifactId>
+        </dependency>
+
+        <!-- L4 模板国际化：api-doc.md.ftl 文案字典 TemplateMessages 位于 fastddd-templates -->
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fastddd-templates</artifactId>
+        </dependency>
+
+        <!-- JavaParser for parsing Java source code -->
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+        </dependency>
+
+        <!-- JavaParser symbol solver for type resolution -->
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-symbol-solver-core</artifactId>
+        </dependency>
+
+        <!-- Spring Web for annotations -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- FreeMarker for templating -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- SLF4J Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

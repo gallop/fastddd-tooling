@@ -1,0 +1,70 @@
+image: maven:3.9.9-eclipse-temurin-21
+
+stages:
+  - validate
+  - verify
+  - contract
+  - publish
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Xmx2048m"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
+
+cache:
+  key:
+    files:
+      - pom.xml
+      - .mvn/wrapper/maven-wrapper.properties
+  paths:
+    - .m2/repository
+    - .m2/wrapper
+
+.with-framework-candidate:
+  before_script:
+    - rm -rf "$CI_PROJECT_DIR/.m2/repository/io/github/gallop/fastddd"
+  rules:
+    - if: '$FASTDDD_MAVEN_REPOSITORY_URL && $FASTDDD_MAVEN_REPOSITORY_USERNAME && $FASTDDD_MAVEN_REPOSITORY_PASSWORD && $FASTDDD_FRAMEWORK_VERSION'
+    - when: never
+
+validate:
+  extends: .with-framework-candidate
+  stage: validate
+  script:
+    - ./mvnw $MAVEN_CLI_OPTS -s ci-settings.xml -Dfastddd-framework.version=$FASTDDD_FRAMEWORK_VERSION validate
+
+verify:
+  extends: .with-framework-candidate
+  stage: verify
+  script:
+    - ./mvnw $MAVEN_CLI_OPTS -s ci-settings.xml -Dfastddd-framework.version=$FASTDDD_FRAMEWORK_VERSION clean verify
+  artifacts:
+    when: always
+    reports:
+      junit: "**/target/surefire-reports/TEST-*.xml"
+    paths:
+      - "**/target/surefire-reports/"
+      - "**/target/site/jacoco/"
+    expire_in: 30 days
+
+tooling-consumer-contract:
+  extends: .with-framework-candidate
+  stage: contract
+  script:
+    - ./mvnw $MAVEN_CLI_OPTS -s ci-settings.xml -Dfastddd-framework.version=$FASTDDD_FRAMEWORK_VERSION clean install -DskipTests
+    - ./mvnw $MAVEN_CLI_OPTS -s ci-settings.xml -Dfastddd-framework.version=$FASTDDD_FRAMEWORK_VERSION verify -pl fastddd-tooling-consumer-tests -Pconsumer-tests
+  artifacts:
+    when: always
+    paths:
+      - "fastddd-tooling-consumer-tests/target/its/**/build.log"
+      - "fastddd-tooling-consumer-tests/target/invoker-reports/"
+    expire_in: 30 days
+
+publish-tooling-candidate:
+  extends: .with-framework-candidate
+  stage: publish
+  needs: ["verify", "tooling-consumer-contract"]
+  rules:
+    - if: '$FASTDDD_MAVEN_REPOSITORY_URL && $FASTDDD_MAVEN_REPOSITORY_USERNAME && $FASTDDD_MAVEN_REPOSITORY_PASSWORD && $FASTDDD_FRAMEWORK_VERSION && $FASTDDD_TOOLING_VERSION'
+    - when: never
+  script:
+    - ./mvnw $MAVEN_CLI_OPTS -s ci-settings.xml -Dfastddd-framework.version=$FASTDDD_FRAMEWORK_VERSION -Drevision=$FASTDDD_TOOLING_VERSION clean deploy -DskipTests -DaltDeploymentRepository=fastddd-candidates::$FASTDDD_MAVEN_REPOSITORY_URL

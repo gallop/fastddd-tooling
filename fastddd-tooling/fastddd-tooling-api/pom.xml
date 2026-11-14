@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.gallop.fastddd</groupId>
+        <artifactId>fastddd-tooling-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>fastddd-tooling-api</artifactId>
+    <packaging>jar</packaging>
+
+    <name>FastDDD :: Tooling API</name>
+    <description>
+        稳定 Tooling 契约层（SPLIT-003）：为 Studio、Maven Plugin 与未来模板扩展提供与生成器内部实现
+        解耦的纯 Java 契约。本模块是 Tooling 层对外的二进制面，禁止依赖具体模板引擎（FreeMarker）、
+        MyBatis-Plus、Spring MVC、数据库驱动或 Studio DTO。
+    </description>
+
+    <dependencies>
+        <!--
+            仅依赖 fast-ddd-common（共享 TableMetadata / ColumnMetadata 元数据契约）。
+            common 经 ADR-005 允许的 Tooling→Framework 方向被引入；其传递依赖（spring-boot-starter、
+            hutool、jackson）均不在 SPLIT-003 禁止清单（FreeMarker / MyBatis-Generator / Spring MVC / Studio DTO）内。
+        -->
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fast-ddd-common</artifactId>
+        </dependency>
+
+        <!--
+            VER-001：加载 fastddd-compatibility-matrix.yaml（跨产品兼容矩阵规范源）。
+            SnakeYAML 是纯数据格式库（非模板引擎/ORM/Web/数据库驱动），不在 SPLIT-003 bannedDependencies 清单；
+            版本由 spring-boot-dependencies 管理（Spring Boot 自身依赖它解析 application.yml）。
+        -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--
+                SPLIT-003 依赖契约门禁：本模块（含传递依赖）禁止出现具体模板引擎 / ORM / Web / 数据库连接池。
+                这是 Tooling API "纯 Java 契约"性质的构建期硬门禁——防止未来误加依赖破坏二进制面稳定性。
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-tooling-api-dep-contract</id>
+                        <goals><goal>enforce</goal></goals>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <exclude>org.freemarker:freemarker</exclude>
+                                        <exclude>com.baomidou:*</exclude>
+                                        <exclude>org.springframework:spring-web</exclude>
+                                        <exclude>org.springframework:spring-webmvc</exclude>
+                                        <exclude>org.springframework.boot:spring-boot-starter-web</exclude>
+                                        <exclude>com.alibaba:druid*</exclude>
+                                        <exclude>com.zaxxer:HikariCP</exclude>
+                                        <exclude>mysql:*</exclude>
+                                        <exclude>org.postgresql:*</exclude>
+                                    </excludes>
+                                    <message>SPLIT-003：fastddd-tooling-api 禁止依赖模板引擎/ORM/Web/数据库驱动（见模块说明）。</message>
+                                </bannedDependencies>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

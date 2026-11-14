@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.gallop.fastddd</groupId>
+        <artifactId>fastddd-tooling-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>fastddd-maven-plugin</artifactId>
+    <packaging>maven-plugin</packaging>
+    <name>FastDDD Maven Plugin</name>
+    <description>FastDDD框架的Maven插件，提供代码生成、数据库文档生成等功能</description>
+
+    <properties>
+        <maven.version>3.9.5</maven.version>
+        <maven-plugin-api.version>3.9.5</maven-plugin-api.version>
+        <maven-plugin-annotations.version>3.10.2</maven-plugin-annotations.version>
+        <maven-plugin-plugin.version>3.10.2</maven-plugin-plugin.version>
+    </properties>
+
+    <dependencies>
+        <!-- FastDDD Dependencies -->
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fast-ddd-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fastddd-fastdoc-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fastddd-code-generator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.gallop.fastddd</groupId>
+            <artifactId>fastddd-templates</artifactId>
+        </dependency>
+
+        <!-- Maven Plugin Dependencies -->
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>${maven-plugin-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>${maven-plugin-annotations.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-core</artifactId>
+            <version>${maven.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>${maven.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Database Dependencies -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Utility Dependencies -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>${maven-plugin-plugin.version}</version>
+                <configuration>
+                    <goalPrefix>fastddd</goalPrefix>
+                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>mojo-descriptor</id>
+                        <goals>
+                            <goal>descriptor</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>help-goal</id>
+                        <goals>
+                            <goal>helpmojo</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

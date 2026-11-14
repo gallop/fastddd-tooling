@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.github.gallop.fastddd</groupId>
+    <artifactId>fastddd-tooling-parent</artifactId>
+    <version>${revision}</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>fastddd-tooling-consumer-tests</artifactId>
+  <packaging>pom</packaging>
+  <name>FastDDD Tooling :: Consumer Tests</name>
+  <description>Tooling 发布制品的隔离消费者契约测试；不属于公开运行时制品。</description>
+
+  <properties>
+    <invoker.skip>true</invoker.skip>
+    <!-- CI 内部契约 harness，不属于 Tooling Community 发布制品。 -->
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <invoker.test>fastdoc-*</invoker.test>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <version>${maven-invoker-plugin.version}</version>
+        <configuration>
+          <cloneProjectsTo>${project.build.directory}/its</cloneProjectsTo>
+          <projectsDirectory>src/it</projectsDirectory>
+          <properties>
+            <fastddd.version>${fastddd-framework.version}</fastddd.version>
+            <fastddd.tooling.version>${revision}</fastddd.tooling.version>
+          </properties>
+          <streamLogsOnFailures>true</streamLogsOnFailures>
+          <writeJunitReport>true</writeJunitReport>
+          <parallelThreads>1</parallelThreads>
+        </configuration>
+        <executions>
+          <execution>
+            <id>tooling-consumer-integration-test</id>
+            <phase>integration-test</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <skipInvocation>${invoker.skip}</skipInvocation>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>consumer-tests</id>
+      <properties><invoker.skip>false</invoker.skip></properties>
+    </profile>
+  </profiles>
+</project>

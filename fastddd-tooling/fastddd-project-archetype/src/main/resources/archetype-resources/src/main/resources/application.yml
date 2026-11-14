@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: $artifactId
+  profiles:
+    active: dev
+#if($databaseType == "mysql")
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/$artifactId?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: your_password
+#elseif($databaseType == "postgresql")
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/$artifactId
+    username: postgres
+    password: your_password
+#else
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+#end
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+fastddd:
+  # WEB-002：响应包装与 Jackson 扩展均为 opt-in（默认关）。
+  # 生成项目作为框架聚合消费者显式开启——获得 ApiResponse 信封 + Long→String + 日期格式化能力。
+  web:
+    response-wrapper:
+      enabled: true
+  jackson:
+    enabled: true
+#if($enableCache == "true")
+  cache:
+    local:
+      enabled: true
+      max-size: 1000
+      expire-after-write: 30m
+    redis:
+      enabled: false
+#end
+## 事件配置 fastddd.event.* 暂不生成：框架未提供 fastddd.event.* 绑定（事件模块仅绑定 rocketmq.*）。
+## 待 EVT（ADR-003 OutboxTransport SPI）决定补真实绑定后再恢复。
+#if($enableMonitor == "true")
+  monitor:
+    sql:
+      # 框架契约：SqlMonitoringProperties.slowQueryThreshold 为 long（毫秒），不接 Spring Duration 单位后缀
+      slow-query-threshold: 1000
+#end
+
+logging:
+  level:
+    com.gallop.fastddd: DEBUG
+    ${package}: DEBUG
